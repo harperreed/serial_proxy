@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "serial_proxy"
 version = "0.1.0"
 authors = [
-  { name="Your Name", email="your.email@example.com" },
+  { name="Harper Reed", email="harper@modest.com" },
 ]
 description = "A proxy for serial communication with logging capabilities"
 readme = "README.md"
@@ -21,5 +21,5 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/yourusername/serial_proxy"
-"Bug Tracker" = "https://github.com/yourusername/serial_proxy/issues"
+"Homepage" = "https://github.com/harperreed/serial_proxy"
+"Bug Tracker" = "https://github.com/harperreed/serial_proxy/issues"
