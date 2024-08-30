@@ -7,7 +7,7 @@ Serial Proxy is a Python package that provides a proxy for serial communication 
 You can install the Serial Proxy package using pip:
 
 ```
-pip install serial-proxy
+pip install git+https://github.com/harperreed/serial_proxy.git
 ```
 
 ## Usage
