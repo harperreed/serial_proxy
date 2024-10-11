@@ -1,71 +1,66 @@
 import serial
-import json
-from datetime import datetime
+from typing import Union, List, Optional
+from .logger import Logger
+
 
 class SerialProxy:
-    def __init__(self, port, baudrate, log_file='serial_log.json'):
+    def __init__(self, port: str, baudrate: int, log_file: str = "serial_log.json"):
         self.serial = serial.Serial(port, baudrate)
-        self.log_file = log_file
+        self.logger = Logger(log_file)
 
-    def write(self, data):
-        self.log("WRITE", data)
+    def write(self, data: Union[str, bytes]) -> int:
+        self.logger.log("WRITE", data)
         return self.serial.write(data)
 
-    def read(self, size=1):
+    def read(self, size: int = 1) -> bytes:
         data = self.serial.read(size)
-        self.log("READ", data)
+        self.logger.log("READ", data)
         return data
 
-    def readline(self):
+    def readline(self) -> bytes:
         data = self.serial.readline()
-        self.log("READLINE", data)
+        self.logger.log("READLINE", data)
         return data
 
-    def readlines(self):
+    def readlines(self) -> List[bytes]:
         data = self.serial.readlines()
-        self.log("READLINES", data)
+        self.logger.log("READLINES", data)
         return data
 
-    def in_waiting(self):
+    def in_waiting(self) -> int:
         return self.serial.in_waiting
 
-    def flush(self):
-        self.log("FLUSH", "")
+    def flush(self) -> None:
+        self.logger.log("FLUSH", "")
         return self.serial.flush()
 
-    def flushInput(self):
-        self.log("FLUSH_INPUT", "")
+    def flushInput(self) -> None:
+        self.logger.log("FLUSH_INPUT", "")
         return self.serial.flushInput()
 
-    def flushOutput(self):
-        self.log("FLUSH_OUTPUT", "")
+    def flushOutput(self) -> None:
+        self.logger.log("FLUSH_OUTPUT", "")
         return self.serial.flushOutput()
 
-    def close(self):
-        self.log("CLOSE", "")
+    def close(self) -> None:
+        self.logger.log("CLOSE", "")
         return self.serial.close()
 
-    def open(self):
-        self.log("OPEN", "")
+    def open(self) -> None:
+        self.logger.log("OPEN", "")
         return self.serial.open()
 
-    def __enter__(self):
+    def __enter__(self) -> "SerialProxy":
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type],
+        exc_val: Optional[Exception],
+        exc_tb: Optional[object],
+    ) -> None:
         self.close()
 
     @property
-    def is_open(self):
+    def is_open(self) -> bool:
         return self.serial.is_open
-
-    def log(self, operation, data):
-        log_entry = {
-            "timestamp": datetime.now().isoformat(),
-            "operation": operation,
-            "data": data.hex() if isinstance(data, bytes) else str(data)
-        }
-        with open(self.log_file, 'a') as f:
-            json.dump(log_entry, f)
-            f.write('\n')  # Add a newline for readability and to separate entries
-

@@ -34,6 +34,22 @@ print(response)
 - Automatic logging of all serial operations to a JSON file
 - Context manager support for easy resource management
 
+## Development
+
+### Running Tests
+
+To run the test suite, first install the development dependencies:
+
+```
+pip install -r requirements-dev.txt
+```
+
+Then, run the tests using pytest:
+
+```
+pytest src/serial_proxy/tests
+```
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
